@@ -9,25 +9,25 @@ from .sql import build_sql
 import dotenv
 import os
 
-dotenv.load()
+dotenv.load_dotenv()
 
 logger.setLevel(logging.DEBUG)
 logger.addHandler(logging.StreamHandler())
-load(json.load(open('g.json')))
+# load(json.load(open('g.json')))
 Curso(cod='G030', sig_cod_int=0, nome='ABI Engenharia')
 Curso(cod='G043', sig_cod_int=0, nome='ABI Educação Física')
 Curso(cod='G055', sig_cod_int=0, nome='ABI Letras')
 sig = Sig()
-# cursos = sig.get_cursos()
-# periodos = sig.get_periodos()
+sig.login(os.getenv('USER'), os.getenv('PASSWORD'))
+cursos = sig.get_cursos()
+periodos = sig.get_periodos()
 
 
 try:
-    raise RuntimeError('no')
-    sig.login(os.getenv('USER'), os.getenv('PASSWORD'))
+    # raise RuntimeError('no')
     ofertas = sig.list_ofertas()
 
-    periodo = '2023/2 - Campus Sede'
+    periodo = '2024/1 - Campus Sede'
     discis = {}
     for i, parcial in enumerate(ofertas):
         print(f'{i+1}/{len(ofertas)} {parcial}')
@@ -58,6 +58,6 @@ finally:
     cursos = list(Curso._values())
     discs = list(Disciplina._values())
     profs = list(Professor._values())
-    s = build_sql(cursos, discs, profs, '2023/2 - Campus Sede')
+    s = build_sql(cursos, discs, profs, '2024/1 - Campus Sede')
     open('d.sql', 'w', encoding='utf-8').write(s)
-    # open('g.json', 'w').write(json.dumps(dump(), indent='\t'))
+    open('g.json', 'w').write(json.dumps(dump(), indent='\t'))
